@@ -36,5 +36,5 @@ Inside each folder you will find your text objects named like this.
 
 This should make it easy for you to find what you are looking for.
 
-The AL extension alows Visutual Studio Code to open the file and show you your code in colors. So nice. And so 2018. 
+The AL extension alows Visual Studio Code to open the file and show you your code in colors. So nice. And so 2018. 
 
