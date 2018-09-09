@@ -16,12 +16,12 @@ First of all the splitter puts the files in a folder structure equal to the one 
 
 ````
 YourProject/
-    /Table/
-    /Page/
-    /Report/
-    /Codeunit/
-    /Query/
-    /XMLport/
+    Table/
+    Page/
+    Report/
+    Codeunit/
+    Query/
+    XMLport/
 ````
 
 Exactly as you would expect it. 
