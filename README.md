@@ -26,13 +26,15 @@ YourProject/
 
 Exactly as you would expect it. 
 
-Inside each folder you will your text objects named in the same logical and modern way of naming objects. 
+Inside each folder you will find your text objects named like this. 
 
 ````
 3_Payment_Terms.al
 5_Finance_Charge_Terms.al
 15_G_L_Account.al
 ````
+
+This should make it easy for you to find what you are looking for.
 
 The AL extension alows Visutual Studio Code to open the file and show you your code in colors. So nice. And so 2018. 
 
