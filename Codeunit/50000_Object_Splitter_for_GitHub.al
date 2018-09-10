@@ -2,21 +2,23 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
 {
   OBJECT-PROPERTIES
   {
-    Date=09/09/18;
-    Time=22:27:29;
+    Date=10-09-18;
+    Time=19:20:14;
     Modified=Yes;
     Version List=FPE;
   }
   PROPERTIES
   {
     OnRun=BEGIN
-            ReadSourceFile('E:\NAV2018\NAV_Object_Splitter\AllObj.txt','E:\NAV2018\NAV_Object_Splitter\');
+            Path := 'C:\Code\NAV_Object_Splitter';
+            ReadSourceFile(Path + '\AllObj.txt',Path + '\');
           END;
 
   }
   CODE
   {
     VAR
+      Path@1104000005 : Text;
       SourceInStream@1104000002 : InStream;
       SourceFile@1104000003 : File;
       TextBuffer@1104000004 : Text;
@@ -106,7 +108,7 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
     BEGIN
       FileName := '';
       WHILE STRLEN(Text) > 0 DO BEGIN
-        IF Text[1] IN ['a'..'z','A'..'Z'] THEN
+        IF Text[1] IN ['a'..'z','A'..'Z','0'..'9'] THEN
           FileName := FileName + COPYSTR(Text,1,1)
         ELSE
           FileName := FileName + '_';
