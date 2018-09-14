@@ -3,14 +3,14 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
   OBJECT-PROPERTIES
   {
     Date=14/09/18;
-    Time=06:59:50;
+    Time=08:02:26;
     Modified=Yes;
     Version List=FPE;
   }
   PROPERTIES
   {
     OnRun=BEGIN
-            Path := 'C:\Code\NAV_Object_Splitter';
+            Path := 'C:\code\NAV_Object_Splitter';
             ReadSourceFile(Path + '\AllObj.txt',Path + '\');
           END;
 
@@ -68,12 +68,11 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
       // Codeunit\99_000_000\Codeunit_99_000_752_Payment_Terms.al
       Text := StripFirstElement(Text);
       ObjectTypeText := CopyFirstElement(Text);
-      ObjectTypeText := InsertThousandSeparator(ObjectTypeText);
-      SubPath := ObjectTypeText  + '\'; // Codeunit\99_000_000\
+      SubPath := ObjectTypeText  + '\';
 
       Text := StripFirstElement(Text);
       ObjectIdText := CopyFirstElement(Text);
-      SubPath := SubPath + ObjectRange(ObjectIdText)  + '\';
+      SubPath := SubPath + InsertThousandSeparator(ObjectRange(ObjectIdText))  + '\';
       ObjectIdText := InsertThousandSeparator(ObjectIdText);
 
       Text := StripFirstElement(Text);
@@ -95,7 +94,11 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
 
     LOCAL PROCEDURE ObjectRange@1104000004(Text@1104000000 : Text) : Text;
     BEGIN
-      EXIT('0_000');
+      // GitHub can max display 1000 files per folder
+      IF STRLEN(Text) < 4 THEN
+        EXIT('000')
+      ELSE
+        EXIT(COPYSTR(Text,1,STRLEN(Text) - 3) + '000');
     END;
 
     LOCAL PROCEDURE ObjectFound@1104000001(VAR Text@1104000000 : Text) : Boolean;
@@ -120,6 +123,20 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
 
     LOCAL PROCEDURE InsertThousandSeparator@1104000012(Text@1104000000 : Text) : Text;
     BEGIN
+      CASE STRLEN(Text) OF
+        1: EXIT('00' + Text);
+        2: EXIT('0' + Text);
+        3: EXIT(Text);
+        4..6:
+          EXIT(COPYSTR(Text,1,STRLEN(Text) - 3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 3 + 1,3));
+        7..9:
+          EXIT(COPYSTR(Text,1,STRLEN(Text) - 3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 3 + 1,3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 6 + 1,3));
+        ELSE
+          EXIT(Text);
+      END;
     END;
 
     LOCAL PROCEDURE ObjectName2FileName@1104000002(Text@1104000000 : Text) FileName : Text;
