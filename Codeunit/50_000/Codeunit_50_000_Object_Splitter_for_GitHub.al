@@ -3,7 +3,7 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
   OBJECT-PROPERTIES
   {
     Date=14/09/18;
-    Time=08:02:26;
+    Time=08:27:21;
     Modified=Yes;
     Version List=FPE;
   }
@@ -132,8 +132,13 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
                COPYSTR(Text,STRLEN(Text) - 3 + 1,3));
         7..9:
           EXIT(COPYSTR(Text,1,STRLEN(Text) - 3) + '_' +
-               COPYSTR(Text,STRLEN(Text) - 3 + 1,3) + '_' +
-               COPYSTR(Text,STRLEN(Text) - 6 + 1,3));
+               COPYSTR(Text,STRLEN(Text) - 6 + 1,3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 3 + 1,3));
+        10..12:
+          EXIT(COPYSTR(Text,1,STRLEN(Text) - 3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 9 + 1,3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 6 + 1,3) + '_' +
+               COPYSTR(Text,STRLEN(Text) - 3 + 1,3));
         ELSE
           EXIT(Text);
       END;
