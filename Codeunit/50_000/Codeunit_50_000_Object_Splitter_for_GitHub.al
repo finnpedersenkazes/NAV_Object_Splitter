@@ -2,8 +2,8 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
 {
   OBJECT-PROPERTIES
   {
-    Date=10-09-18;
-    Time=19:20:14;
+    Date=14/09/18;
+    Time=06:59:50;
     Modified=Yes;
     Version List=FPE;
   }
@@ -29,6 +29,7 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
     VAR
       TargetFilePath@1104000000 : Text;
       TargetFileIsOpen@1104000003 : Boolean;
+      SubPath@1104000004 : Text;
     BEGIN
       TargetFileIsOpen := FALSE;
       SourceFile.OPEN(SourceFilePath);
@@ -36,8 +37,8 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
       WHILE NOT SourceInStream.EOS DO BEGIN
         SourceInStream.READTEXT(TextBuffer);
         IF ObjectFound(TextBuffer) THEN BEGIN
-          TargetFilePath := ObjectFileName(TextBuffer);
-          CreateDirectory(TargetFolderPath + ObjectTypeDirectory(TextBuffer),FALSE);
+          TargetFilePath := ObjectFileName(TextBuffer,SubPath);
+          CreateDirectory(TargetFolderPath + SubPath,FALSE);
           IF TargetFileIsOpen THEN BEGIN
             TargetFile.CLOSE;
             TargetFileIsOpen := FALSE;
@@ -55,21 +56,29 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
       MESSAGE('End of file reached');
     END;
 
-    LOCAL PROCEDURE ObjectFileName@1104000005(Text@1104000000 : Text) : Text;
+    LOCAL PROCEDURE ObjectFileName@1104000005(Text@1104000000 : Text;VAR SubPath@1104000004 : Text) : Text;
     VAR
       ObjectTypeText@1104000001 : Text;
       ObjectIdText@1104000002 : Text;
       ObjectNameText@1104000003 : Text;
     BEGIN
       // OBJECT Table 3 Payment Terms
-      // Table\3_Payment_Terms.al
+      // Table\0_000\Table_0_003_Payment_Terms.al
+      // OBJECT Codeunit 99000752 Check Routing Lines
+      // Codeunit\99_000_000\Codeunit_99_000_752_Payment_Terms.al
       Text := StripFirstElement(Text);
       ObjectTypeText := CopyFirstElement(Text);
+      ObjectTypeText := InsertThousandSeparator(ObjectTypeText);
+      SubPath := ObjectTypeText  + '\'; // Codeunit\99_000_000\
+
       Text := StripFirstElement(Text);
       ObjectIdText := CopyFirstElement(Text);
+      SubPath := SubPath + ObjectRange(ObjectIdText)  + '\';
+      ObjectIdText := InsertThousandSeparator(ObjectIdText);
+
       Text := StripFirstElement(Text);
       ObjectNameText := ObjectName2FileName(Text);
-      EXIT(ObjectTypeText + '\' + ObjectIdText + '_' + ObjectNameText + '.al');
+      EXIT(SubPath + ObjectTypeText + '_' + ObjectIdText + '_' + ObjectNameText + '.al');
     END;
 
     LOCAL PROCEDURE ObjectTypeDirectory@1104000003(Text@1104000000 : Text) : Text;
@@ -82,6 +91,11 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
       // Tables\
       Text := StripFirstElement(Text);
       EXIT(CopyFirstElement(Text) + '\');
+    END;
+
+    LOCAL PROCEDURE ObjectRange@1104000004(Text@1104000000 : Text) : Text;
+    BEGIN
+      EXIT('0_000');
     END;
 
     LOCAL PROCEDURE ObjectFound@1104000001(VAR Text@1104000000 : Text) : Boolean;
@@ -102,6 +116,10 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
     LOCAL PROCEDURE SpacePosition@1104000006(Text@1104000000 : Text) : Integer;
     BEGIN
       EXIT(STRPOS(Text,' '))
+    END;
+
+    LOCAL PROCEDURE InsertThousandSeparator@1104000012(Text@1104000000 : Text) : Text;
+    BEGIN
     END;
 
     LOCAL PROCEDURE ObjectName2FileName@1104000002(Text@1104000000 : Text) FileName : Text;
