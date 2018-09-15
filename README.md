@@ -26,12 +26,14 @@ YourProject/
 
 Exactly as you would expect it. 
 
-Inside each folder you will find your text objects named like this. 
+Each object type folder is devided into subfolders according to object ranges. Each range is a thousand objects. There are two reasons for this. First GitHub can show a maximum of 1000 files per folder and second it makes easier to navigate. 
+
+Inside each object range folder you will find your text objects named like this. 
 
 ````
-3_Payment_Terms.al
-5_Finance_Charge_Terms.al
-15_G_L_Account.al
+Table_003_Payment_Terms.al
+Codeunit_13_600_OIOUBL_Document_Encode.al
+Codeunit_99_000_752_Check_Routing_Lines.al
 ````
 
 This should make it easy for you to find what you are looking for.
