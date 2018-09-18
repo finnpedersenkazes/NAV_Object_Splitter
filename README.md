@@ -1,4 +1,4 @@
-# NAV 2018 Object Splitter
+# Microsoft Dynamics NAV 2018 Object Splitter
 
 ## Problem
 Microsoft offers you the PowerShell Cmdlet: 
@@ -42,6 +42,6 @@ To learn more about how to install the AL language extension in Visual Studio Co
 
 ## Full Size Example
 
-To illustrate the potential of this tool, I made this GitHub repository that compares all released Cumulative Updates for NAV 2018. The Danish version. 
+To illustrate the potential of this tool, I made this GitHub repository that compares all released Cumulative Updates for the Danish version of Microsoft Dynamics NAV 2018. 
 
 [Compare of all Released Cumulative Updates for Microsoft Dynamics NAV 2018](https://github.com/finnpedersenkazes/Cumulative-Updates-for-Microsoft-Dynamics-NAV-2018-DK)
