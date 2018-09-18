@@ -2,9 +2,9 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
 {
   OBJECT-PROPERTIES
   {
-    Date=18/09/18;
-    Time=07:00:00;
-    Version List=FPE0.002;
+    Date=18-09-18;
+    Time=09:00:00;
+    Version List=FPE1.00;
   }
   PROPERTIES
   {
@@ -151,6 +151,14 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
     END;
 
     BEGIN
+    {
+      --------------------------------------------------------------------------------
+      -- Put your object file in an empty folder and rename it to AllObj.txt
+      -- Copy the path to your folder and paste it into the first line of code below.
+      -- Then simply run this Codeunit from the Object Designer.
+      -- Copyright ¸ 2018 Finn Bjarne Pedersen. Please see the MIT License.
+      --------------------------------------------------------------------------------
+    }
     END.
   }
 }
