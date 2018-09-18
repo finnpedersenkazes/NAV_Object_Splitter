@@ -2,9 +2,9 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
 {
   OBJECT-PROPERTIES
   {
-    Date=15/09/18;
-    Time=07:37:24;
-    Version List=FPE0.001;
+    Date=18/09/18;
+    Time=07:00:00;
+    Version List=FPE0.002;
   }
   PROPERTIES
   {
@@ -37,7 +37,7 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
         SourceInStream.READTEXT(TextBuffer);
         IF ObjectFound(TextBuffer) THEN BEGIN
           TargetFilePath := ObjectFileName(TextBuffer,SubPath);
-          CreateDirectory(TargetFolderPath + SubPath,FALSE);
+          CreateDirectory(TargetFolderPath + SubPath);
           IF TargetFileIsOpen THEN BEGIN
             TargetFile.CLOSE;
             TargetFileIsOpen := FALSE;
@@ -75,19 +75,8 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
       EXIT(SubPath + ObjectTypeText + '_' + ObjectIdText + '_' + ObjectNameText + '.al');
     END;
 
-    LOCAL PROCEDURE ObjectTypeDirectory@1104000003(Text@1104000000 : Text) : Text;
-    VAR
-      ObjectTypeText@1104000001 : Text;
-      ObjectIdText@1104000002 : Text;
-      ObjectNameText@1104000003 : Text;
-    BEGIN
-      Text := StripFirstElement(Text);
-      EXIT(CopyFirstElement(Text) + '\');
-    END;
-
     LOCAL PROCEDURE ObjectRange@1104000004(Text@1104000000 : Text) : Text;
     BEGIN
-      // GitHub can max display 1000 files per folder
       IF STRLEN(Text) < 4 THEN
         EXIT('000')
       ELSE
@@ -151,32 +140,13 @@ OBJECT Codeunit 50000 Object Splitter for GitHub
       EXIT(FileName);
     END;
 
-    LOCAL PROCEDURE CreateDirectory@1000000027(path@1000000000 : Text;showconfirmation@1000000003 : Boolean) : Boolean;
+    LOCAL PROCEDURE CreateDirectory@1000000027(Path@1000000000 : Text);
     VAR
       SystemIODirectory@1000000001 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Directory";
       SystemIODirectoryInfo@1000000002 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.DirectoryInfo";
-      DirectoryCreatedMsg@1104000000 : TextConst 'ENU=Directory %1 created.';
     BEGIN
-      IF NOT SystemIODirectory.Exists(path) THEN BEGIN
-        SystemIODirectoryInfo := SystemIODirectory.CreateDirectory(path);
-        IF showconfirmation THEN BEGIN
-          MESSAGE(STRSUBSTNO(DirectoryCreatedMsg,SystemIODirectoryInfo.Name));
-        END;
-      END;
-    END;
-
-    LOCAL PROCEDURE DeleteDirectory@1000000023(path@1000000000 : Text;recursive@1000000004 : Boolean;showconfirmation@1000000003 : Boolean);
-    VAR
-      SystemIODirectory@1000000002 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Directory";
-      SystemIODirectoryInfo@1000000001 : DotNet "'mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.DirectoryInfo";
-      DirectoryDeletededMsg@1104000000 : TextConst 'ENU=Directory deleted.';
-    BEGIN
-      IF SystemIODirectory.Exists(path) THEN BEGIN
-        SystemIODirectory.Delete(path, recursive);
-        IF showconfirmation THEN BEGIN
-          IF NOT SystemIODirectory.Exists(path) THEN
-            MESSAGE(DirectoryDeletededMsg);
-        END;
+      IF NOT SystemIODirectory.Exists(Path) THEN BEGIN
+        SystemIODirectoryInfo := SystemIODirectory.CreateDirectory(Path);
       END;
     END;
 
